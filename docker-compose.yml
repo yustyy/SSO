@@ -1,0 +1,100 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - yusssss-net
+
+
+#  gateway-service:
+#    build: ./gateway-service
+#    container_name: gateway-service
+#    depends_on:
+#      - eureka-server
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - yusssss-net
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    depends_on:
+      - eureka-server
+      - user-service-db
+      - keycloak
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://user-service-db:5432/userdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=password
+      - KEYCLOAK_URL=http://keycloak:8080
+    networks:
+      - yusssss-net
+
+  user-service-db:
+    image: postgres:16
+    container_name: user-service-db
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - user-data:/var/lib/postgresql/data
+    networks:
+      - yusssss-net
+
+  keycloak-db:
+    image: postgres:16
+    container_name: keycloak-db
+    environment:
+      POSTGRES_DB: keycloakdb
+      POSTGRES_USER: keycloakuser
+      POSTGRES_PASSWORD: keycloakpassword
+    ports:
+      - "5434:5432"
+    volumes:
+      - keycloak-db-data:/var/lib/postgresql/data
+    networks:
+      - yusssss-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3.1
+    container_name: keycloak
+    environment:
+      - KC_DB=postgres
+      - KC_DB_URL_HOST=keycloak-db
+      - KC_DB_URL_DATABASE=keycloakdb
+      - KC_DB_USERNAME=keycloakuser
+      - KC_DB_PASSWORD=keycloakpassword
+      - KC_HTTP_RELATIVE_PATH=/
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak-db
+    command: start-dev
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+    networks:
+      - yusssss-net
+
+volumes:
+  user-data:
+  keycloak-data:
+  keycloak-db-data:
+
+networks:
+  yusssss-net:
+    driver: bridge
