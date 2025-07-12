@@ -1,6 +1,7 @@
 package com.yusssss.sso.ticketservice.dataAccess;
 
 import com.yusssss.sso.ticketservice.entities.Ticket;
+import com.yusssss.sso.ticketservice.entities.TicketStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,6 @@ public interface TicketDao extends JpaRepository<Ticket, UUID> {
     List<Ticket> findByEventId(UUID eventId);
 
     boolean existsByEventIdAndUserId(UUID eventId, UUID userId);
+
+    List<Ticket> findByEventIdAndStatus(UUID eventId, TicketStatus ticketStatus);
 }

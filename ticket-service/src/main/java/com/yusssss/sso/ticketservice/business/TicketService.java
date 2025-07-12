@@ -137,4 +137,22 @@ public class TicketService {
                 .map(TicketDto::new)
                 .toList();
     }
+
+    public List<TicketDto> getTicketsByEventIdAndStatus(UUID eventId, String status) {
+
+        TicketStatus ticketStatus;
+        try {
+            ticketStatus = TicketStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Invalid ticket status: " + status);
+        }
+
+        List<Ticket> tickets = ticketDao.findByEventIdAndStatus(eventId, ticketStatus);
+        if (tickets.isEmpty()) {
+            throw new RuntimeException("No tickets found for event with id: " + eventId + " and status: " + status);
+        }
+        return tickets.stream()
+                .map(TicketDto::new)
+                .toList();
+    }
 }

@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7320369-aa1b-42ca-b953-51972282849a" name="Changes" comment="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration" />
+    <list default="true" id="b7320369-aa1b-42ca-b953-51972282849a" name="Changes" comment="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/business/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/business/TicketService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dataAccess/TicketDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dataAccess/TicketDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/webAPI/controllers/TicketsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/webAPI/controllers/TicketsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/api/controllers/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/api/controllers/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/business/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/business/UserService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,27 +54,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.TicketServiceApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/yusssss/IdeaProjects/SSO/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dtos/user",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.TicketServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/yusssss/IdeaProjects/SSO/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dtos/user&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dtos/user" />
@@ -131,6 +139,8 @@
       <workItem from="1752319501213" duration="217000" />
       <workItem from="1752319720767" duration="1440000" />
       <workItem from="1752321172509" duration="11798000" />
+      <workItem from="1752339565691" duration="15000" />
+      <workItem from="1752341089050" duration="5736000" />
     </task>
     <task id="LOCAL-00001" summary="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration">
       <option name="closed" value="true" />
@@ -140,7 +150,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752339156161</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration">
+      <option name="closed" value="true" />
+      <created>1752339575757</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1752339575757</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -60,6 +60,14 @@ public class TicketsController {
         return ResponseEntity.ok(new SuccessDataResult<>(tickets, "Tickets for event retrieved successfully", HttpStatus.OK, request.getRequestURI()));
     }
 
+    @GetMapping("/event/{eventId}/status")
+    public ResponseEntity<DataResult<List<TicketDto>>> getTicketsByEventIdAndStatus(@PathVariable UUID eventId,
+                                                                                    @RequestParam("status") String status,
+                                                                                     HttpServletRequest request) {
+        List<TicketDto> tickets = ticketService.getTicketsByEventIdAndStatus(eventId, status);
+        return ResponseEntity.ok(new SuccessDataResult<>(tickets, "Tickets for event with status retrieved successfully", HttpStatus.OK, request.getRequestURI()));
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<DataResult<TicketDto>> updateTicketStatus(@PathVariable UUID id,
                                                                      @RequestParam("status") String status,

@@ -123,6 +123,47 @@ services:
     networks:
       - yusssss-net
 
+
+  event-service:
+    build:
+      context: ./event-service
+    container_name: event-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - event-service-db
+      - eureka-server
+    networks:
+      - yusssss-net
+    environment:
+      - DB_HOST=event-service-db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=password
+      - DB_NAME=eventdb
+      - EUREKA_URL=http://eureka-server:8761/eureka/v2
+      - SERVICE_PORT=8084
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8084/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+
+  event-service-db:
+    image: postgres
+    container_name: event-service-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: eventdb
+    ports:
+      - "5436:5432"
+    networks:
+      - yusssss-net
+
 volumes:
   user-data:
   keycloak-data:

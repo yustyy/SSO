@@ -123,4 +123,11 @@ public class UserService {
         return new UserDto(user);
     }
 
+    public List<UserDto> getUsersByIds(List<UUID> ids) {
+        List<User> users = userDao.findAllById(ids);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("No users found for the provided IDs");
+        }
+        return users.stream().map(UserDto::new).toList();
+    }
 }

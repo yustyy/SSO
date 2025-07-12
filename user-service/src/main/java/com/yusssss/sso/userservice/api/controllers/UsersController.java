@@ -38,6 +38,14 @@ public class UsersController {
                 "User created successfully", HttpStatus.CREATED, request.getRequestURI()));
     }
 
+    @GetMapping("/bulk")
+    public ResponseEntity<DataResult<List<UserDto>>> getUsersByIds(@RequestParam List<UUID> ids,
+                                                                    HttpServletRequest request) {
+        List<UserDto> users = userService.getUsersByIds(ids);
+        return ResponseEntity.ok(new SuccessDataResult<>(users, "Users retrieved successfully",
+                HttpStatus.OK, request.getRequestURI()));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResult> getUserById(@PathVariable UUID id,
                                                            HttpServletRequest request) {
