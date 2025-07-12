@@ -5,6 +5,7 @@ import com.yusssss.sso.userservice.core.exceptions.UnauthorizedException;
 import com.yusssss.sso.userservice.core.exceptions.UserNotFoundException;
 import com.yusssss.sso.userservice.core.utilities.keycloak.KeycloakService;
 import com.yusssss.sso.userservice.dataAccess.UserDao;
+import com.yusssss.sso.userservice.dtos.mail.EmailMessage;
 import com.yusssss.sso.userservice.dtos.user.UserDto;
 import com.yusssss.sso.userservice.dtos.user.UserRequest;
 import com.yusssss.sso.userservice.entities.User;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,12 @@ public class UserService {
 
     private final UserDao userDao;
     private final KeycloakService keycloakService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public UserService(UserDao userDao, KeycloakService keycloakService) {
+    public UserService(UserDao userDao, KeycloakService keycloakService, RabbitTemplate rabbitTemplate) {
         this.userDao = userDao;
         this.keycloakService = keycloakService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @Transactional
@@ -43,7 +47,31 @@ public class UserService {
         user.setActive(true);
 
         User savedUser = userDao.save(user);
-        log.info("User created in DB with ID: {}", savedUser.getId());
+        System.out.println("User created in DB with ID: " + savedUser.getId());
+
+        EmailMessage emailMessage = new EmailMessage(
+                savedUser.getEmail(),
+                "SSO Hesabınız Oluşturuldu!",
+                "Merhaba " + savedUser.getFirstName() + ",\n\n" +
+                        "SSO hesabınız başarıyla oluşturuldu. Artık platforma giriş yapabilirsiniz.\n\n" +
+                        "Kullanıcı Adınız: " + savedUser.getUsername() + "\n" +
+                        "Email: " + savedUser.getEmail() + "\n\n" +
+                        "Teşekkürler,\nSSO Ekibi"
+        );
+
+        try {
+            rabbitTemplate.convertAndSend(
+                    "notification.exchange",
+                    "notification.email",
+                    emailMessage
+            );
+        }catch (Exception e){
+            log.error("Failed to send email to: {}", savedUser.getEmail(), e);
+            throw new RuntimeException("Failed to send email notification", e);
+        }
+
+
+        log.info("sent email to: {}", savedUser.getEmail());
         return new UserDto(savedUser);
     }
 

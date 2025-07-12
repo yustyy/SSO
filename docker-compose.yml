@@ -9,18 +9,17 @@ services:
     networks:
       - yusssss-net
 
-
-#  gateway-service:
-#    build: ./gateway-service
-#    container_name: gateway-service
-#    depends_on:
-#      - eureka-server
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    networks:
-#      - yusssss-net
+  #  gateway-service:
+  #    build: ./gateway-service
+  #    container_name: gateway-service
+  #    depends_on:
+  #      - eureka-server
+  #    ports:
+  #      - "8081:8081"
+  #    environment:
+  #      - SPRING_PROFILES_ACTIVE=docker
+  #    networks:
+  #      - yusssss-net
 
   user-service:
     build: ./user-service
@@ -90,8 +89,6 @@ services:
     networks:
       - yusssss-net
 
-
-
   ticket-service:
     build: ./ticket-service
     container_name: ticket-service
@@ -123,7 +120,6 @@ services:
     networks:
       - yusssss-net
 
-
   event-service:
     build:
       context: ./event-service
@@ -151,7 +147,6 @@ services:
       retries: 5
       start_period: 40s
 
-
   event-service-db:
     image: postgres
     container_name: event-service-db
@@ -164,11 +159,68 @@ services:
     networks:
       - yusssss-net
 
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    depends_on:
+      - notification-service-db
+      - eureka-server
+      - rabbitmq
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://notification-service-db:5432/notificationdb
+      - SPRING_DATASOURCE_USERNAME=notification_user
+      - SPRING_DATASOURCE_PASSWORD=notification_password
+      - EUREKA_URL=http://eureka-server:8761/eureka/v2
+      - SERVICE_PORT=8085
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    networks:
+      - yusssss-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8085/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  notification-service-db:
+    image: postgres:16
+    container_name: notification-service-db
+    environment:
+      POSTGRES_DB: notificationdb
+      POSTGRES_USER: notification_user
+      POSTGRES_PASSWORD: notification_password
+    ports:
+      - "5437:5432"
+    volumes:
+      - notification-db-data:/var/lib/postgresql/data
+    networks:
+      - yusssss-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - yusssss-net
+
 volumes:
   user-data:
   keycloak-data:
   keycloak-db-data:
   ticket-db-data:
+  notification-db-data:
 
 networks:
   yusssss-net:

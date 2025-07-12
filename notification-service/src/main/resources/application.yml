@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:postgresql://notification-service-db:5432/notificationdb
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    listener:
+      simple:
+        concurrency: 3
+        max-concurrency: 10
+
+
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: email
+    password: email-app-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+server:
+  port: 8085
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    org.springframework.amqp: INFO
+    com.yusssss.sso.notificationservice: DEBUG

@@ -1,6 +1,11 @@
 spring:
   application:
     name: user-service
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 
   datasource:
     url: jdbc:postgresql://user-service-db:5432/userdb
