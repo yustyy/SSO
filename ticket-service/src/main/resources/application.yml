@@ -1,10 +1,10 @@
 spring:
   application:
-    name: user-service
+    name: ticket-service
 
   datasource:
-    url: jdbc:postgresql://user-service-db:5432/userdb
-    username: user
+    url: jdbc:postgresql://ticket-service-db:5432/ticketdb
+    username: ticket
     password: password
     driver-class-name: org.postgresql.Driver
 
@@ -19,20 +19,17 @@ spring:
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://eureka-server:8761/eureka/
     register-with-eureka: true
     fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
 
 server:
-  port: 8082
+  port: 8083
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
 
-keycloak:
-  base-url: http://keycloak:8080
-  realm: sso
-  client-id: user-service
-  client-secret: dxP48MAbDoux3LQd84KQ16NyKa5gaC4v
+feign:
+  client:
+    config:
+      default:
+        errorDecoder: com.yusssss.sso.ticketservice.core.decoders.CustomFeignErrorDecoder

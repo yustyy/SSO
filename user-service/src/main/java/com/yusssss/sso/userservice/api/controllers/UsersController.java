@@ -5,7 +5,9 @@ import com.yusssss.sso.userservice.core.results.DataResult;
 import com.yusssss.sso.userservice.core.results.Result;
 import com.yusssss.sso.userservice.core.results.SuccessDataResult;
 import com.yusssss.sso.userservice.dtos.user.UserDto;
+import com.yusssss.sso.userservice.dtos.user.UserListResult;
 import com.yusssss.sso.userservice.dtos.user.UserRequest;
+import com.yusssss.sso.userservice.dtos.user.UserResult;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 public class UsersController {
 
     private final UserService userService;
@@ -37,35 +39,35 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DataResult<UserDto>> getUserById(@PathVariable UUID id,
+    public ResponseEntity<UserResult> getUserById(@PathVariable UUID id,
                                                            HttpServletRequest request) {
         UserDto user = userService.getUserById(id);
-        return ResponseEntity.ok(new SuccessDataResult<>(user, "User retrieved successfully",
+        return ResponseEntity.ok(new UserResult(user, true, "User retrieved successfully",
                 HttpStatus.OK, request.getRequestURI()));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<DataResult<UserDto>> getCurrentUser(HttpServletRequest request) {
+    public ResponseEntity<UserResult> getCurrentUser(HttpServletRequest request) {
         var user = userService.getCurrentUser(request);
-        return ResponseEntity.ok(new SuccessDataResult<>(user, "Current user retrieved successfully",
+        return ResponseEntity.ok(new UserResult(user, true, "Current user retrieved successfully",
                 HttpStatus.OK, request.getRequestURI()));
     }
 
     @GetMapping("/")
-    public ResponseEntity<DataResult<List<UserDto>>> getAllUsers(HttpServletRequest request) {
+    public ResponseEntity<UserListResult> getAllUsers(HttpServletRequest request) {
         List<UserDto> users = userService.getAllUsers();
 
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessDataResult<>(users,
+        return ResponseEntity.status(HttpStatus.OK).body(new UserListResult(users, true,
                 "Users retrieved successfully", HttpStatus.OK, request.getRequestURI()));
 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DataResult<UserDto>> updateUser(@PathVariable UUID id,
+    public ResponseEntity<UserResult> updateUser(@PathVariable UUID id,
                                                            @RequestBody @Valid UserRequest userRequest,
                                                            HttpServletRequest request) {
         UserDto updatedUser = userService.updateUser(id, userRequest);
-        return ResponseEntity.ok(new SuccessDataResult<>(updatedUser, "User updated successfully",
+        return ResponseEntity.ok(new UserResult(updatedUser, true, "User updated successfully",
                 HttpStatus.OK, request.getRequestURI()));
     }
 
@@ -76,14 +78,14 @@ public class UsersController {
         return ResponseEntity.ok(new SuccessDataResult<>(HttpStatus.OK, request.getRequestURI()));
     }
 
-    @PostMapping("/users/{id}/activate")
+    @PostMapping("/{id}/activate")
     public ResponseEntity<Result> activateUser(@PathVariable UUID id,
                                                HttpServletRequest request) {
         userService.activateUser(id);
         return ResponseEntity.ok(new SuccessDataResult<>(HttpStatus.OK, request.getRequestURI()));
     }
 
-    @PostMapping("/users/{id}/deactivate")
+    @PostMapping("/{id}/deactivate")
     public ResponseEntity<Result> deactivateUser(@PathVariable UUID id,
                                                  HttpServletRequest request) {
         userService.deactivateUser(id);

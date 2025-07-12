@@ -90,10 +90,44 @@ services:
     networks:
       - yusssss-net
 
+
+
+  ticket-service:
+    build: ./ticket-service
+    container_name: ticket-service
+    depends_on:
+      - eureka-server
+      - ticket-service-db
+      - user-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ticket-service-db:5432/ticketdb
+      - SPRING_DATASOURCE_USERNAME=ticket
+      - SPRING_DATASOURCE_PASSWORD=password
+    networks:
+      - yusssss-net
+
+  ticket-service-db:
+    image: postgres:16
+    container_name: ticket-service-db
+    environment:
+      POSTGRES_DB: ticketdb
+      POSTGRES_USER: ticket
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    volumes:
+      - ticket-db-data:/var/lib/postgresql/data
+    networks:
+      - yusssss-net
+
 volumes:
   user-data:
   keycloak-data:
   keycloak-db-data:
+  ticket-db-data:
 
 networks:
   yusssss-net:
