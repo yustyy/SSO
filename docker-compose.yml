@@ -9,25 +9,31 @@ services:
     networks:
       - yusssss-net
 
-  #  gateway-service:
-  #    build: ./gateway-service
-  #    container_name: gateway-service
-  #    depends_on:
-  #      - eureka-server
-  #    ports:
-  #      - "8081:8081"
-  #    environment:
-  #      - SPRING_PROFILES_ACTIVE=docker
-  #    networks:
-  #      - yusssss-net
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - yusssss-net
 
   user-service:
     build: ./user-service
     container_name: user-service
     depends_on:
-      - eureka-server
-      - user-service-db
-      - keycloak
+      keycloak:
+        condition: service_healthy
+      user-service-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
     ports:
       - "8082:8082"
     environment:
@@ -52,6 +58,12 @@ services:
       - user-data:/var/lib/postgresql/data
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d userdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   keycloak-db:
     image: postgres:16
@@ -66,10 +78,19 @@ services:
       - keycloak-db-data:/var/lib/postgresql/data
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloakuser -d keycloakdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.3.1
     container_name: keycloak
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
     environment:
       - KC_DB=postgres
       - KC_DB_URL_HOST=keycloak-db
@@ -79,23 +100,39 @@ services:
       - KC_HTTP_RELATIVE_PATH=/
       - KEYCLOAK_ADMIN=admin
       - KEYCLOAK_ADMIN_PASSWORD=admin_password
+      - KC_HOSTNAME=keycloak
+      - KC_HOSTNAME_STRICT=false
+      - KC_HEALTH_ENABLED=true
+    command: start-dev
     ports:
       - "8080:8080"
-    depends_on:
-      - keycloak-db
-    command: start-dev
+      - "9000:9000"
     volumes:
       - keycloak-data:/opt/keycloak/data
     networks:
       - yusssss-net
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "exec 3<>/dev/tcp/127.0.0.1/9000; \
+        echo -e 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3; \
+        if cat <&3 | grep -q '\"status\": \"UP\"'; then exit 0; else exit 1; fi"
+      ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
 
   ticket-service:
     build: ./ticket-service
     container_name: ticket-service
     depends_on:
-      - eureka-server
-      - ticket-service-db
-      - user-service
+      ticket-service-db:
+        condition: service_healthy
+      user-service:
+        condition: service_started
+      eureka-server:
+        condition: service_started
     ports:
       - "8083:8083"
     environment:
@@ -119,18 +156,23 @@ services:
       - ticket-db-data:/var/lib/postgresql/data
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ticket -d ticketdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   event-service:
-    build:
-      context: ./event-service
+    build: ./event-service
     container_name: event-service
+    depends_on:
+      event-service-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
     ports:
       - "8084:8084"
-    depends_on:
-      - event-service-db
-      - eureka-server
-    networks:
-      - yusssss-net
     environment:
       - DB_HOST=event-service-db
       - DB_PORT=5432
@@ -139,6 +181,8 @@ services:
       - DB_NAME=eventdb
       - EUREKA_URL=http://eureka-server:8761/eureka/v2
       - SERVICE_PORT=8084
+    networks:
+      - yusssss-net
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8084/health" ]
@@ -158,14 +202,23 @@ services:
       - "5436:5432"
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d eventdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   notification-service:
     build: ./notification-service
     container_name: notification-service
     depends_on:
-      - notification-service-db
-      - eureka-server
-      - rabbitmq
+      notification-service-db:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
     ports:
       - "8085:8085"
     environment:
@@ -202,6 +255,12 @@ services:
       - notification-db-data:/var/lib/postgresql/data
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U notification_user -d notificationdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -214,6 +273,12 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - yusssss-net
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
 volumes:
   user-data:

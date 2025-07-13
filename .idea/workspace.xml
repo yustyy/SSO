@@ -4,40 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7320369-aa1b-42ca-b953-51972282849a" name="Changes" comment="initialize notification-service">
-      <change afterPath="$PROJECT_DIR$/notification-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/business/NotificationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/config/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/DataResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/ErrorCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/ErrorDataResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/ErrorResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/SuccessDataResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/results/SuccessResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/utilities/mail/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/utilities/mail/JavaMailSenderManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/utilities/mail/rabbitmq/EmailConsumer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/core/utilities/mail/rabbitmq/EmailMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/dataAccess/NotificationDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/dto/NotificationDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/dto/NotificationRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/entities/Notification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/entities/NotificationChannel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/java/com/yusssss/sso/notificationservice/webAPI/NotificationsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notification-service/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/core/config/RabbitMQConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/dtos/mail/EmailMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b7320369-aa1b-42ca-b953-51972282849a" name="Changes" comment="Implemented notification service and implemented RabbitMQ to send notifications asynchronously via email or SMS.">
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/java/com/yusssss/sso/gatewayservice/core/config/GatewayConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/java/com/yusssss/sso/gatewayservice/core/config/KeycloakRoleConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway-service/src/main/java/com/yusssss/sso/gatewayservice/core/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/notification-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notification-service/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/business/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/business/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway-service/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/api/controllers/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/yusssss/sso/userservice/api/controllers/UsersController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,27 +57,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.TicketServiceApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/yusssss/IdeaProjects/SSO/notification-service",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.TicketServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/yusssss/IdeaProjects/SSO/notification-service&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/notification-service" />
@@ -111,6 +87,8 @@
       <recent name="$PROJECT_DIR$/ticket-service/src/main/java/com/yusssss/sso/ticketservice/dtos/user" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.yusssss.sso.gatewayservice.core.config" />
+      <recent name="com.yusssss.sso.gatewayservice.core.security" />
       <recent name="com.yusssss.sso.notificationservice.core.utilities.mail.rabbitmq" />
       <recent name="com.yusssss.sso.ticketservice.dtos.user" />
     </key>
@@ -181,7 +159,8 @@
       <workItem from="1752319720767" duration="1440000" />
       <workItem from="1752321172509" duration="11798000" />
       <workItem from="1752339565691" duration="15000" />
-      <workItem from="1752341089050" duration="14244000" />
+      <workItem from="1752341089050" duration="14352000" />
+      <workItem from="1752422089344" duration="15057000" />
     </task>
     <task id="LOCAL-00001" summary="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration">
       <option name="closed" value="true" />
@@ -215,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752348645968</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Implemented notification service and implemented RabbitMQ to send notifications asynchronously via email or SMS.">
+      <option name="closed" value="true" />
+      <created>1752356177554</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1752356177554</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,6 +212,7 @@
     <MESSAGE value="Add ticket microservice with REST API, PostgreSQL, Feign client, and Eureka integration" />
     <MESSAGE value="implemented event-service with golang" />
     <MESSAGE value="initialize notification-service" />
-    <option name="LAST_COMMIT_MESSAGE" value="initialize notification-service" />
+    <MESSAGE value="Implemented notification service and implemented RabbitMQ to send notifications asynchronously via email or SMS." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented notification service and implemented RabbitMQ to send notifications asynchronously via email or SMS." />
   </component>
 </project>
